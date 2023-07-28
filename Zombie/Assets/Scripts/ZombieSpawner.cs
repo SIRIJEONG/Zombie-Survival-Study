@@ -13,7 +13,22 @@ public class ZombieSpawner : MonoBehaviour {
 
     private void Awake()
     {
+
+        List<Dictionary<string, object>> data = CSVReader.Read("ZombieTest");
+
         zombieDatas[0] = ResourceManager.instance.zombieData_default;
+
+
+        for (int i = 0; i < data.Count; i++)
+        {
+            ZombieData zombie = ScriptableObject.CreateInstance<ZombieData>();
+
+            zombie.health = float.Parse(data[i]["HEALTH"].ToString());
+            zombie.health = float.Parse(data[i]["DAMAGE"].ToString());
+            zombie.health = float.Parse(data[i]["SPEED"].ToString());
+            ColorUtility.TryParseHtmlString(data[i]["SKIN_COLOR"].ToString(), out zombie.skinColor);
+            zombieDatas[i] = zombie;
+        }
     }
 
     private void Update() {
